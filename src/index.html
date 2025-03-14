@@ -3,123 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WAV Loop Point Extractor</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        #dropZone {
-            width: 80%;
-            max-width: 600px;
-            padding: 20px;
-            margin: 20px auto;
-            border: 2px dashed #ccc;
-            background-color: #f9f9f9;
-            cursor: pointer;
-        }
-        #dropZone.highlight { border-color: #333; background-color: #eef; }
-        #output { margin-top: 20px; text-align: left; display: inline-block; }
-    </style>
+    <title>WAV Loop Extractor & Preset Generator</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
     <h2>Drag and Drop WAV Files</h2>
     <div id="dropZone">Drop WAV files here</div>
-    <div id="output"></div>
+    
+    <h3>Generated SFZ File:</h3>
+    <pre id="sfzOutput"></pre>
+    <button class="button" id="copySFZ" style="display: none;">Copy SFZ to Clipboard</button>
+    <button class="button" id="downloadSFZ" style="display: none;">Download SFZ File</button>
 
-    <script>
-        const dropZone = document.getElementById("dropZone");
-        const output = document.getElementById("output");
+    <h3>Generated Decent Sampler Preset:</h3>
+    <pre id="dsOutput"></pre>
+    <button class="button" id="copyDS" style="display: none;">Copy DS Preset</button>
+    <button class="button" id="downloadDS" style="display: none;">Download DS File</button>
 
-        dropZone.addEventListener("dragover", (event) => {
-            event.preventDefault();
-            dropZone.classList.add("highlight");
-        });
-
-        dropZone.addEventListener("dragleave", () => {
-            dropZone.classList.remove("highlight");
-        });
-
-        dropZone.addEventListener("drop", (event) => {
-            event.preventDefault();
-            dropZone.classList.remove("highlight");
-            handleFiles(event.dataTransfer.files);
-        });
-
-        function handleFiles(files) {
-            output.innerHTML = ""; // Clear output
-
-            Array.from(files).forEach(file => {
-                if (file.type === "audio/wav") {
-                    processWavFile(file);
-                } else {
-                    output.innerHTML += `<p style="color:red;">${file.name} is not a WAV file.</p>`;
-                }
-            });
-        }
-
-        function processWavFile(file) {
-            const reader = new FileReader();
-
-            reader.onload = function(event) {
-                const arrayBuffer = event.target.result;
-                const dataView = new DataView(arrayBuffer);
-                const smplChunk = findSmplChunk(dataView);
-
-                if (smplChunk) {
-                    displayLoopPoints(file.name, smplChunk);
-                } else {
-                    output.innerHTML += `<p><strong>${file.name}:</strong> No loop points found.</p>`;
-                }
-            };
-
-            reader.readAsArrayBuffer(file);
-        }
-
-        function findSmplChunk(dataView) {
-            let offset = 12; // Skip RIFF header
-
-            while (offset < dataView.byteLength) {
-                const chunkID = getString(dataView, offset, 4);
-                const chunkSize = dataView.getUint32(offset + 4, true); // Little-endian
-
-                if (chunkID === "smpl") {
-                    return parseSmplChunk(dataView, offset + 8);
-                }
-
-                offset += chunkSize + 8; // Move to next chunk
-            }
-
-            return null;
-        }
-
-        function parseSmplChunk(dataView, offset) {
-            const numLoops = dataView.getUint32(offset + 28, true);
-            const loops = [];
-
-            for (let i = 0; i < numLoops; i++) {
-                let loopOffset = offset + 36 + i * 24;
-                let start = dataView.getUint32(loopOffset + 8, true);
-                let end = dataView.getUint32(loopOffset + 12, true);
-                loops.push({ start, end });
-            }
-
-            return loops;
-        }
-
-        function displayLoopPoints(filename, loops) {
-            let html = `<p><strong>${filename}:</strong><br>`;
-
-            loops.forEach((loop, index) => {
-                html += `Loop ${index + 1}: Start = ${loop.start}, End = ${loop.end}<br>`;
-            });
-
-            html += "</p>";
-            output.innerHTML += html;
-        }
-
-        function getString(dataView, offset, length) {
-            return new TextDecoder("utf-8").decode(dataView.buffer.slice(offset, offset + length));
-        }
-    </script>
-
+    <script src="js/index.js" type="module" defer></script>
 </body>
 </html>
