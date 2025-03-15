@@ -11,6 +11,8 @@
  * @property {number} sampleRate - The sample rate of the file
  * @property {number} bitDepth - The bit depth of the file
  * @property {number} channels - The number of channels in the file
+ * @property {string} rootNoteName - The root note of the file as a note name
+ * @property {number} rootNote - The root note of the file
  * @property {string[]} errors - Any errors found in the file
  * @property {LoopInfo[]|null} loops - All loop points in the file
  */

@@ -1,5 +1,7 @@
 /// <reference path="../globals.js" />
 
+import { noteNameToMidiNumber } from "./note.js";
+
 function getString(dataView, offset, length) {
   return new TextDecoder("utf-8").decode(dataView.buffer.slice(offset, offset + length));
 }
@@ -87,6 +89,10 @@ export function extractFileInfo(file) {
         const length = (dataView.getUint32(dataChunkOffset + 4, true) / (bitDepth / 8) / channels) | 0; // Convert bytes to samples per channel
         // Extract loop points
         const smplChunk = getLoopPoints(dataView);
+        // Extract root note from file name - NB some Best Service samples have the # before the note name
+        const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
+        const noteMatch = fileNameWithoutExtension.match(/([a-gA-G][#b]?\d|#[a-gA-G]\d)$/);
+        const rootNoteName = noteMatch ? noteMatch[0] : null;
 
         const fileInfo = {
           name: file.name,
@@ -95,8 +101,11 @@ export function extractFileInfo(file) {
           bitDepth,
           channels,
           errors: [],
+          rootNoteName,
+          rootNote: noteNameToMidiNumber(rootNoteName),
           loops: smplChunk,
         }
+        console.log(fileInfo);
         resolve(fileInfo);
       } catch (error) {
         console.error(error);

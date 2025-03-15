@@ -26,7 +26,7 @@ function wrapGroups(groups, minVersion = '1.12.0', includeSchema = false) {
  * @returns {string} The region as a string.
  */
 function buildSampleTag(sample, defaultPath) {
-  let tag = `      <sample path="${defaultPath}/${sample.name}" rootNote="60" loNote="0" hiNote="127 start="0" end="${sample.length}"`;
+  let tag = `      <sample path="${defaultPath}/${sample.name}" rootNote="${sample.rootNote || "60"}" loNote="${sample.rootNote || "60"}" hiNote="${sample.rootNote || "60"}" start="0" end="${sample.length}"`;
   if (sample.loops.length) {
     tag += ` loopEnabled="true" loopStart="${sample.loops[0].start}" loopEnd="${sample.loops[0].end}" loopCrossfade="0"`;
   } else {
@@ -41,7 +41,7 @@ function buildSampleTag(sample, defaultPath) {
  * @param {SampleFileInfo[]} samples The sample files to build the Decent Sampler preset file from.
  * @returns {string} The Decent Sampler preset file as a string.
  */
-export function buildDSpreset(samples, defaultPath = 'Samples') {
+export function buildDSpreset(samples, defaultPath = "Samples") {
   const sampleTags = samples.map(s => buildSampleTag(s, defaultPath));
   return wrapGroups([`    <group>\n${sampleTags.join('\n')}\n    </group>`]);
 }

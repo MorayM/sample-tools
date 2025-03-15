@@ -70,7 +70,7 @@ export default class SampleInfoState {
 
     Promise.all(filePromises)
       .then((fileInfo) => {
-        this.state.fileInfo = fileInfo;
+        this.state.fileInfo = fileInfo.sort((a, b) => a.rootNote - b.rootNote);
         this.updateSFZ();
         this.updateDSPreset();
         if (this.processCompleteCallback) {
