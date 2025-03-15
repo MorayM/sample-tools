@@ -23,7 +23,6 @@ export default class SampleInfoState {
    */
   constructor(callback) {
     this.state = {
-      files: [],
       fileInfo: [],
       sfz: null,
       dspreset: null,
@@ -63,7 +62,6 @@ export default class SampleInfoState {
    * @param {FileList} files The incoming files.
    */
   loadNewFiles(files) {
-    this.state.files = files;
     const filePromises = Array.from(files)
       .filter(f => f.type === 'audio/wav')
       .map(extractFileInfo);

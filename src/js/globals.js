@@ -19,7 +19,6 @@
 
 /**
  * @typedef {Object} SampleInfoState
- * @property {FileList} files - The original files that make up the sample set.
  * @property {SampleFileInfo[]} fileInfo - Info about each file in the set.
  * @property {string|null} sfz - The SFZ file as a string.
  * @property {string|null} dspreset - The Decent Sampler file as a string.
