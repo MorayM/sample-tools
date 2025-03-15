@@ -3,37 +3,40 @@
 import SampleInfoState from "./SampleInfoState.js";
 
 const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
 const sfzOutput = document.getElementById("sfzOutput");
 const dsOutput = document.getElementById("dsOutput");
 const copySFZ = document.getElementById("copySFZ");
 const downloadSFZ = document.getElementById("downloadSFZ");
 const copyDS = document.getElementById("copyDS");
 const downloadDS = document.getElementById("downloadDS");
+const results = document.getElementById("results");
 
-/**
- * Callback function to run when processing is complete.
- * @param {SampleInfoState} state The new state
- */
-const onProcessComplete = (state) => {
+const sampleInfoState = new SampleInfoState((state) => {
+  console.log('called');
   sfzOutput.innerText = state.sfz;
   dsOutput.innerText = state.dspreset;
-};
-
-const sampleInfoState = new SampleInfoState(onProcessComplete);
+  results.classList.remove("hidden");
+});
 
 dropZone.addEventListener("dragover", (event) => {
-    event.preventDefault();
-    dropZone.classList.add("highlight");
+  event.preventDefault();
+  dropZone.classList.add("highlight");
 });
 
 dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("highlight");
+  dropZone.classList.remove("highlight");
 });
 
 dropZone.addEventListener("drop", (event) => {
-    event.preventDefault();
-    dropZone.classList.remove("highlight");
-    sampleInfoState.loadNewFiles(event.dataTransfer.files);
+  event.preventDefault();
+  dropZone.classList.remove("highlight");
+  sampleInfoState.loadNewFiles(event.dataTransfer.files);
+});
+
+fileInput.addEventListener('change', function(event) {
+  event.preventDefault();
+  sampleInfoState.loadNewFiles(event.target.files);
 });
 
 copySFZ.addEventListener("click", () => {
