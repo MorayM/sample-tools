@@ -5,8 +5,8 @@
  * @param {string} defaultPath The directory containing the samples.
  * @returns 
  */
-function buildHeader(defaultPath) {
-  return `<group>\ndefault_path=${defaultPath}/\n\n`;
+function buildControl(defaultPath) {
+  return `<control>\ndefault_path=${defaultPath}/\n\n`;
 }
 
 /**
@@ -14,12 +14,12 @@ function buildHeader(defaultPath) {
  * @param {SampleFileInfo} sample The sample file to build the region from.
  * @returns {string} The region as a string.
  */
-function buildSampleRegion(sample) {
-  let region = `<region>\nlokey=${sample.rootNote || "60"}\nhikey=${sample.rootNote || "60"}\npitch_keycenter=${sample.rootNote || "60"}\nsample=${sample.name}\n`;
+function buildRegion(sample) {
+  let region = `<region> lokey=${sample.rootNote || "60"} hikey=${sample.rootNote || "60"} pitch_keycenter=${sample.rootNote || "60"} sample=${sample.name}`;
   if (sample.loops.length) {
-    region += `loop_mode=loop_continuous\nloop_start=${sample.loops[0].start}\nloop_end=${sample.loops[0].end}\n`;
+    region += ` loop_mode=loop_continuous loop_start=${sample.loops[0].start} loop_end=${sample.loops[0].end}`;
   } else {
-    region += `loop_mode=no_loop\n`;
+    region += ` loop_mode=no_loop\n`;
   }
   return region;
 }
@@ -31,7 +31,7 @@ function buildSampleRegion(sample) {
  * @returns {string} The SFZ file as a string.
  */
 export function buildSfz(samples, defaultPath = "Samples") {
-  const header = buildHeader(defaultPath);
-  const regions = samples.map(buildSampleRegion);
-  return header + regions.join('\n');
+  const header = buildControl(defaultPath);
+  const regions = samples.map(buildRegion);
+  return header + '<group>\n' + regions.join('\n');
 }
