@@ -33,7 +33,7 @@ export function noteNameToMidiNumber(noteName) {
     const octaveMatch = noteName.match(/\d/);
     const octave = octaveMatch ? parseInt(octaveMatch[0], 10) : 4;
     // If there's no octave number or if we're off the end of a piano
-    if (!octave || octave < 0 || octave > 8) return null;
+    if (octave === null || octave < 0 || octave > 8) return null;
 
     // Get just the note name
     let note = noteName.replace(/\d/, ""); 
