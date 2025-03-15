@@ -13,7 +13,6 @@ const downloadDS = document.getElementById("downloadDS");
 const results = document.getElementById("results");
 
 const sampleInfoState = new SampleInfoState((state) => {
-  console.log('called');
   sfzOutput.innerText = state.sfz;
   dsOutput.innerText = state.dspreset;
   results.classList.remove("hidden");

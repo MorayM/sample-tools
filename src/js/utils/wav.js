@@ -105,7 +105,6 @@ export function extractFileInfo(file) {
           rootNote: noteNameToMidiNumber(rootNoteName),
           loops: smplChunk,
         }
-        console.log(fileInfo);
         resolve(fileInfo);
       } catch (error) {
         console.error(error);
