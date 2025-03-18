@@ -27,7 +27,7 @@ function wrapGroups(groups, minVersion = '1.12.0', includeSchema = false) {
  */
 function buildSampleTag(sample, defaultPath) {
   let tag = `      <sample path="${defaultPath}/${sample.name}" rootNote="${sample.rootNote ?? "60"}" loNote="${sample.loNote ?? "60"}" hiNote="${sample.hiNote ?? "60"}" start="0" end="${sample.length}"`;
-  if (sample.loops.length) {
+  if (sample.loops?.length) {
     tag += ` loopEnabled="true" loopStart="${sample.loops[0].start}" loopEnd="${sample.loops[0].end}" loopCrossfade="0"`;
   } else {
     tag += ` loopEnabled="false"`;
