@@ -15,7 +15,7 @@ function buildControl(defaultPath) {
  * @returns {string} The region as a string.
  */
 function buildRegion(sample) {
-  let region = `<region> lokey=${sample.rootNote || "60"} hikey=${sample.rootNote || "60"} pitch_keycenter=${sample.rootNote || "60"} sample=${sample.name}`;
+  let region = `<region> lokey=${sample.loNote ?? "60"} hikey=${sample.hiNote ?? "60"} pitch_keycenter=${sample.rootNote ?? "60"} sample=${sample.name}`;
   if (sample.loops.length) {
     region += ` loop_mode=loop_continuous loop_start=${sample.loops[0].start} loop_end=${sample.loops[0].end}`;
   } else {

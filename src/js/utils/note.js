@@ -50,3 +50,26 @@ export function noteNameToMidiNumber(noteName) {
     return null;
   }
 }
+
+/**
+ * @param {SampleFileInfo} file The current file in the array
+ * @param {number} currentIndex The index of the current file in the array
+ * @param {SampleFileInfo[]} allFiles The file list
+ * @returns {number} The low key for the current file
+ */
+export function setSampleRange(file, currentIndex, allFiles) {
+  const result = { ...file };
+  // Set the hi note to the root note of the next file, or 127 if this is the last file
+  if (currentIndex === allFiles.length - 1) {
+    result.hiNote = 127;
+  } else {
+    result.hiNote = file.rootNote;
+  }
+  // Set the lo note to one above the root note of the previous file, or 0 if this is the first file
+  if (currentIndex === 0) {
+    result.loNote = 0;
+  } else {
+    result.loNote = allFiles[currentIndex - 1].rootNote + 1;
+  }
+  return result;
+}

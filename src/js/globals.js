@@ -13,6 +13,8 @@
  * @property {number} channels - The number of channels in the file
  * @property {string} rootNoteName - The root note of the file as a note name
  * @property {number} rootNote - The root note of the file
+ * @property {number} loNote - The lowest note played by this sample
+ * @property {number} hiNote - The highest note played by this sample
  * @property {string[]} errors - Any errors found in the file
  * @property {LoopInfo[]|null} loops - All loop points in the file
  */
