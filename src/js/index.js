@@ -30,7 +30,8 @@ dropZone.addEventListener("dragleave", () => {
 dropZone.addEventListener("drop", (event) => {
   event.preventDefault();
   dropZone.classList.remove("highlight");
-  sampleInfoState.loadNewFiles(event.dataTransfer.files);
+  const dataTransfer = event.dataTransfer || (event.originalEvent && event.originalEvent.dataTransfer);
+  sampleInfoState.loadNewFiles(dataTransfer.files);
 });
 
 fileInput.addEventListener('change', function(event) {

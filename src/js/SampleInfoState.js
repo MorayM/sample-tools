@@ -4,6 +4,14 @@ import { buildSfz } from "./utils/sfz.js";
 import { buildDSpreset } from "./utils/ds.js";
 import { setSampleRange } from "./utils/note.js";
 
+const VALID_FILE_TYPES = [
+  'audio/wav',
+  'audio/vnd.wave',
+  'audio/wave',
+  'audio/x-wav',
+  'audio/x-pn-wav'
+];
+
 /**
  * Describes the state of the Sample Info application
  */
@@ -64,7 +72,7 @@ export default class SampleInfoState {
    */
   loadNewFiles(files) {
     const filePromises = Array.from(files)
-      .filter(f => f.type === 'audio/wav')
+      .filter(f => VALID_FILE_TYPES.includes(f.type))
       .map(extractFileInfo);
 
     Promise.all(filePromises)
