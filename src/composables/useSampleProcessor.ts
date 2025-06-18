@@ -47,16 +47,22 @@ export function useSampleProcessor() {
           return false
         }
         if (f.size > MAX_FILE_SIZE) {
-          console.warn(`File ${f.name} is too large (${Math.round(f.size / 1024 / 1024)}MB), skipping`)
+          console.warn(
+            `File ${f.name} is too large (${Math.round(f.size / 1024 / 1024)}MB), skipping`
+          )
           return false
         }
         return true
       })
 
       if (validFiles.length === 0) {
-        const hasOversizedFiles = Array.from(files).some(f => f.size > MAX_FILE_SIZE)
-        const hasValidType = Array.from(files).some(f => VALID_FILE_TYPES.includes(f.type))
-        
+        const hasOversizedFiles = Array.from(files).some(
+          (f) => f.size > MAX_FILE_SIZE
+        )
+        const hasValidType = Array.from(files).some((f) =>
+          VALID_FILE_TYPES.includes(f.type)
+        )
+
         if (hasOversizedFiles) {
           throw new Error('Files are too large. Maximum file size is 100MB.')
         } else if (!hasValidType) {

@@ -1,47 +1,36 @@
+/* Modern CSS Reset and Base Styles */
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
-}
-
-#inputs {
-  text-align: center;
-}
-
-#dropZone {
-  width: 80%;
-  max-width: 600px;
+  font-family:
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Roboto',
+    sans-serif;
+  line-height: 1.6;
+  color: #2d3748;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  margin: 0;
   padding: 20px;
-  margin: 20px auto;
-  border: 2px dashed #ccc;
-  background-color: #f9f9f9;
-  cursor: pointer;
 }
 
-#dropZone.highlight {
-  border-color: #333;
-  background-color: #eef;
+/* Container for the app */
+#app {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 40px);
 }
 
-pre {
-  background: #f4f4f4;
-  padding: 10px;
-  white-space: pre-wrap;
-  text-align: left;
-}
-
-.button {
-  margin-top: 10px;
-  padding: 10px 15px;
-  cursor: pointer;
-  border: none;
-  background: #007bff;
-  color: white;
-  border-radius: 5px;
-}
-
-.button:hover {
-  background: #0056b3;
-}
-
-.hidden {
-  display: none;
+/* Smooth transitions for all interactive elements */
+* {
+  transition: all 0.2s ease;
 }
