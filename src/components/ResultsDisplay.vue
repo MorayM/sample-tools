@@ -7,13 +7,35 @@
       </p>
     </div>
 
-    <div class="results__grid">
-      <div v-if="sfz" class="preset-card">
+    <!-- Format Toggle Switch -->
+    <div v-if="sfz && dspreset" class="format-toggle">
+      <div class="toggle-container">
+        <button 
+          :class="['toggle-option', { active: activeFormat === 'sfz' }]"
+          @click="activeFormat = 'sfz'"
+        >
+          <img src="/src/assets/images/sfz_file_format_logo.png" alt="SFZ" class="toggle-option__icon" />
+          <span class="toggle-option__label">SFZ Format</span>
+        </button>
+        <button 
+          :class="['toggle-option', { active: activeFormat === 'ds' }]"
+          @click="activeFormat = 'ds'"
+        >
+          <img src="/src/assets/images/ds_file_format_logo.png" alt="Decent Sampler" class="toggle-option__icon" />
+          <span class="toggle-option__label">Decent Sampler</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Single Preset Display -->
+    <div class="preset-container">
+      <!-- SFZ Format -->
+      <div v-if="(activeFormat === 'sfz' && sfz) || (!dspreset && sfz)" class="preset-card">
         <div class="preset-card__header">
-          <div class="preset-card__icon">🎵</div>
+          <img src="/src/assets/images/sfz_file_format_logo.png" alt="SFZ" class="preset-card__icon" />
           <h3 class="preset-card__title">SFZ Format</h3>
           <p class="preset-card__description">
-            Universal format supported by many sampler programs
+            Open format supported by Serum 2, Sforzando, and many more.
           </p>
         </div>
         <div class="preset-card__content">
@@ -31,12 +53,13 @@
         </div>
       </div>
 
-      <div v-if="dspreset" class="preset-card">
+      <!-- Decent Sampler Format -->
+      <div v-if="(activeFormat === 'ds' && dspreset) || (!sfz && dspreset)" class="preset-card">
         <div class="preset-card__header">
-          <div class="preset-card__icon">🎛️</div>
+          <img src="/src/assets/images/ds_file_format_logo.png" alt="Decent Sampler" class="preset-card__icon" />
           <h3 class="preset-card__title">Decent Sampler</h3>
           <p class="preset-card__description">
-            Ready-to-use preset for Decent Sampler
+            Format for the free Decent Sampler plugin.
           </p>
         </div>
         <div class="preset-card__content">
@@ -58,12 +81,17 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 interface Props {
   sfz: string | null
   dspreset: string | null
 }
 
 const props = defineProps<Props>()
+
+// Active format state - defaults to SFZ if available, otherwise DS
+const activeFormat = ref<'sfz' | 'ds'>(props.sfz ? 'sfz' : 'ds')
 
 function downloadFile(filename: string, content: string) {
   const blob = new Blob([content], { type: 'text/plain' })
@@ -141,11 +169,62 @@ async function downloadDS() {
   margin: 0;
 }
 
-.results__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+.format-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.toggle-container {
+  display: flex;
+  background: #f3f4f6;
+  border-radius: 16px;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #6b7280;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 140px;
+  justify-content: center;
+}
+
+.toggle-option:hover {
+  color: #374151;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.toggle-option.active {
+  background: white;
+  color: #1f2937;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-option__icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.toggle-option__label {
+  font-weight: 600;
+}
+
+.preset-container {
+  display: flex;
+  justify-content: center;
 }
 
 .preset-card {
@@ -155,6 +234,8 @@ async function downloadDS() {
   border: 1px solid #e5e7eb;
   overflow: hidden;
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 800px;
 }
 
 .preset-card:hover {
@@ -168,7 +249,9 @@ async function downloadDS() {
 }
 
 .preset-card__icon {
-  font-size: 2rem;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
   margin-bottom: 0.5rem;
 }
 
@@ -187,7 +270,7 @@ async function downloadDS() {
 }
 
 .preset-card__content {
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -271,9 +354,15 @@ async function downloadDS() {
 }
 
 @media (max-width: 768px) {
-  .results__grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .toggle-container {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .toggle-option {
+    min-width: auto;
+    width: 100%;
   }
 
   .preset-card__actions {
@@ -286,10 +375,6 @@ async function downloadDS() {
 }
 
 @media (max-width: 480px) {
-  .results__grid {
-    grid-template-columns: 1fr;
-  }
-
   .preset-card__header {
     padding: 1rem;
   }
@@ -301,6 +386,15 @@ async function downloadDS() {
   .preset-card__code {
     padding: 1rem;
     font-size: 0.8rem;
+  }
+
+  .toggle-container {
+    padding: 0.25rem;
+  }
+
+  .toggle-option {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
   }
 }
 </style>
