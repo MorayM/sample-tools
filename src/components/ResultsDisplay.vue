@@ -39,7 +39,7 @@
           </p>
         </div>
         <div class="preset-card__content">
-          <pre class="preset-card__code">{{ sfz }}</pre>
+          <pre class="preset-card__code preset-card__code--sfz">{{ sfz }}</pre>
         </div>
         <div class="preset-card__actions">
           <button class="btn btn--primary" @click="copySFZ">
@@ -63,7 +63,7 @@
           </p>
         </div>
         <div class="preset-card__content">
-          <pre class="preset-card__code">{{ dspreset }}</pre>
+          <pre class="preset-card__code preset-card__code--xml"><code class="language-xml" v-html="highlightedDSPreset"></code></pre>
         </div>
         <div class="preset-card__actions">
           <button class="btn btn--primary" @click="copyDS">
@@ -81,7 +81,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import hljs from 'highlight.js/lib/core'
+import xml from 'highlight.js/lib/languages/xml'
+import 'highlight.js/styles/github-dark.css'
+
+// Register XML language
+hljs.registerLanguage('xml', xml)
 
 interface Props {
   sfz: string | null
@@ -92,6 +98,12 @@ const props = defineProps<Props>()
 
 // Active format state - defaults to SFZ if available, otherwise DS
 const activeFormat = ref<'sfz' | 'ds'>(props.sfz ? 'sfz' : 'ds')
+
+// Computed property for highlighted Decent Sampler XML
+const highlightedDSPreset = computed(() => {
+  if (!props.dspreset) return ''
+  return hljs.highlight(props.dspreset, { language: 'xml' }).value
+})
 
 function downloadFile(filename: string, content: string) {
   const blob = new Blob([content], { type: 'text/plain' })
@@ -298,6 +310,12 @@ async function downloadDS() {
 .preset-card__code::-webkit-scrollbar-thumb {
   background: #6b7280;
   border-radius: 4px;
+}
+
+/* Override highlight.js styles to match our dark theme */
+.preset-card__code--xml .hljs {
+  background: transparent;
+  color: inherit;
 }
 
 .preset-card__actions {
