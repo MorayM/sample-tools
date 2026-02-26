@@ -23,19 +23,13 @@
 
     <ResultsDisplay :sfz="sfz" :dspreset="dspreset" />
 
-    <footer class="page-footer">
-      <p class="page-footer__text">
-        Need help or found a bug?
-        <a href="https://github.com/MorayM/sample-tools" target="_blank">
-          Report it on GitHub
-        </a>
-      </p>
-    </footer>
+    <Footer />
   </div>
 </template>
 
 <script setup lang="ts">
 import FileDropZone from '../components/FileDropZone.vue'
+import Footer from '../components/Footer.vue'
 import ResultsDisplay from '../components/ResultsDisplay.vue'
 import { useSampleProcessor } from '../composables/useSampleProcessor'
 
@@ -70,29 +64,6 @@ async function handleFilesSelected(files: FileList) {
   color: #6b7280;
   margin: 0;
   line-height: 1.5;
-}
-
-.page-footer {
-  text-align: center;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-}
-
-.page-footer__text {
-  color: #6b7280;
-  font-size: 0.95rem;
-  margin: 0;
-}
-
-.page-footer__text a {
-  color: #667eea;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.page-footer__text a:hover {
-  color: #5a67d8;
-  text-decoration: underline;
 }
 
 .processing {

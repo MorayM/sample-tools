@@ -95,14 +95,7 @@
       <span v-if="copyFeedback" class="copy-feedback">{{ copyFeedback }}</span>
     </div>
 
-    <footer class="page-footer">
-      <p class="page-footer__text">
-        Need help or found a bug?
-        <a href="https://github.com/MorayM/sample-tools" target="_blank">
-          Report it on GitHub
-        </a>
-      </p>
-    </footer>
+    <Footer />
   </div>
 </template>
 
@@ -113,6 +106,7 @@ import {
   generateTable,
   formatForDecentSampler,
 } from '../utils/translationTable'
+import Footer from '../components/Footer.vue'
 
 const functionId = ref<FunctionId>('linear')
 const min = ref(0)
@@ -373,28 +367,5 @@ async function copyToClipboard() {
   margin-left: 1rem;
   font-size: 0.9rem;
   color: #059669;
-}
-
-.page-footer {
-  text-align: center;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-}
-
-.page-footer__text {
-  color: #6b7280;
-  font-size: 0.95rem;
-  margin: 0;
-}
-
-.page-footer__text a {
-  color: #667eea;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.page-footer__text a:hover {
-  color: #5a67d8;
-  text-decoration: underline;
 }
 </style>

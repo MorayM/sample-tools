@@ -55,7 +55,7 @@
           <a href="https://moray.dev" target="_blank">Moray Macdonald</a>. I
           make music as
           <a href="https://cephid.world" target="_blank">Cephid</a>
-          and built this tool to streamline my own workflow. Hope it helps you
+          and built these tools to streamline my own workflow. Hope it helps you
           too!
         </p>
       </div>
