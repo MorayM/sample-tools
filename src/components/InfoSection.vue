@@ -3,7 +3,7 @@
     <div class="info-section__header">
       <h2 class="info-section__title">Frequently Asked Questions</h2>
       <p class="info-section__subtitle">
-        Everything you need to know about this tool
+        Everything you need to know about these tools
       </p>
     </div>
 

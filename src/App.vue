@@ -9,6 +9,9 @@
         <router-link to="/translation-table" class="nav-link" active-class="nav-link--active">
           Translation Table
         </router-link>
+        <router-link to="/about" class="nav-link" active-class="nav-link--active">
+          About
+        </router-link>
       </nav>
     </header>
 

@@ -1,5 +1,15 @@
 <template>
   <div class="main-content">
+    <div class="home-intro">
+      <h2 class="home-intro__title">Loop Extractor</h2>
+      <p class="home-intro__subtitle">
+        Drag and drop WAV files into the drop zone below (or click "Choose
+        Files"). The tool detects loop points from WAV metadata and generates
+        SFZ and Decent Sampler preset files. All processing runs in your
+        browser—your samples never leave your computer.
+      </p>
+    </div>
+
     <FileDropZone @files-selected="handleFilesSelected" />
 
     <div v-if="isProcessing" class="processing">Processing files...</div>
@@ -8,14 +18,20 @@
 
     <ResultsDisplay :sfz="sfz" :dspreset="dspreset" />
 
-    <InfoSection />
+    <footer class="page-footer">
+      <p class="page-footer__text">
+        Need help or found a bug?
+        <a href="https://github.com/MorayM/sample-tools" target="_blank">
+          Report it on GitHub
+        </a>
+      </p>
+    </footer>
   </div>
 </template>
 
 <script setup lang="ts">
 import FileDropZone from '../components/FileDropZone.vue'
 import ResultsDisplay from '../components/ResultsDisplay.vue'
-import InfoSection from '../components/InfoSection.vue'
 import { useSampleProcessor } from '../composables/useSampleProcessor'
 
 const { sfz, dspreset, isProcessing, error, loadNewFiles } =
@@ -29,6 +45,47 @@ async function handleFilesSelected(files: FileList) {
 <style scoped>
 .main-content {
   padding: 2rem;
+}
+
+.home-intro {
+  margin-bottom: 2rem;
+}
+
+.home-intro__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.home-intro__subtitle {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.page-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+}
+
+.page-footer__text {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.page-footer__text a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.page-footer__text a:hover {
+  color: #5a67d8;
+  text-decoration: underline;
 }
 
 .processing {
