@@ -242,10 +242,11 @@ async function copyToClipboard() {
 }
 
 .chart-container {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 1 / 1;
   max-height: 320px;
   background: #f8fafc;
-  border-radius: 8px;
+  border-left: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .chart-svg {

@@ -1,12 +1,17 @@
 <template>
-  <div class="main-content">
-    <div class="home-intro">
-      <h2 class="home-intro__title">Loop Extractor</h2>
-      <p class="home-intro__subtitle">
+  <div class="main-page">
+    <div class="main-page__intro">
+      <h2 class="main-page__title">Loop Extractor</h2>
+      <p class="main-page__subtitle">
         Drag and drop WAV files into the drop zone below (or click "Choose
         Files"). The tool detects loop points from WAV metadata and generates
         SFZ and Decent Sampler preset files. All processing runs in your
         browser—your samples never leave your computer.
+      </p>
+    </div>
+    <div class="home-intro">
+      <h2 class="home-intro__title">Loop Extractor</h2>
+      <p class="home-intro__subtitle">
       </p>
     </div>
 
@@ -43,22 +48,24 @@ async function handleFilesSelected(files: FileList) {
 </script>
 
 <style scoped>
-.main-content {
+.main-page {
   padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.home-intro {
+.main-page__intro {
   margin-bottom: 2rem;
 }
 
-.home-intro__title {
+.main-page__title {
   font-size: 1.5rem;
   font-weight: 700;
   color: #1f2937;
   margin: 0 0 0.5rem 0;
 }
 
-.home-intro__subtitle {
+.main-page__subtitle {
   font-size: 0.95rem;
   color: #6b7280;
   margin: 0;
