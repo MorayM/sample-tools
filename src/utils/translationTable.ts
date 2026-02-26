@@ -33,13 +33,15 @@ function cubic(t: number): number {
   return t * t * t
 }
 
-function logarithmic(t: number): number {
+function logarithmic(t: number, k?: number): number {
   if (t <= 0) return 0
-  return Math.log(1 + 9 * t) / Math.log(10)
+  const K = k ?? 1
+  return Math.log(1 + (Math.pow(10, K) - 1) * t) / (K * Math.LN10)
 }
 
-function exponential(t: number): number {
-  return (Math.pow(10, t) - 1) / 9
+function exponential(t: number, k?: number): number {
+  const K = k ?? 1
+  return (Math.pow(10, K * t) - 1) / (Math.pow(10, K) - 1)
 }
 
 function sigmoid(t: number, k?: number): number {
