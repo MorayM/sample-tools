@@ -1,42 +1,29 @@
 <template>
   <div id="app">
     <header>
-      <h1>WAV Loop Extractor & Preset Generator</h1>
+      <h1>Sample Tools</h1>
+      <nav class="header-nav">
+        <router-link to="/" class="nav-link" active-class="nav-link--active">
+          Loop Extractor
+        </router-link>
+        <router-link to="/translation-table" class="nav-link" active-class="nav-link--active">
+          Translation Table
+        </router-link>
+      </nav>
     </header>
 
-    <div class="main-content">
-      <FileDropZone @files-selected="handleFilesSelected" />
-
-      <div v-if="isProcessing" class="processing">Processing files...</div>
-
-      <div v-if="error" class="error">Error: {{ error }}</div>
-
-      <ResultsDisplay :sfz="sfz" :dspreset="dspreset" />
-
-      <InfoSection />
-    </div>
+    <router-view />
   </div>
 </template>
 
 <script setup lang="ts">
-import FileDropZone from './components/FileDropZone.vue'
-import ResultsDisplay from './components/ResultsDisplay.vue'
-import InfoSection from './components/InfoSection.vue'
-import { useSampleProcessor } from './composables/useSampleProcessor'
-
-const { sfz, dspreset, isProcessing, error, loadNewFiles } =
-  useSampleProcessor()
-
-async function handleFilesSelected(files: FileList) {
-  await loadNewFiles(files)
-}
 </script>
 
 <style scoped>
 header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 3rem 2rem;
+  padding: 2rem 2rem 1.5rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -54,7 +41,7 @@ header::before {
 }
 
 h1 {
-  margin: 0;
+  margin: 0 0 1rem 0;
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 600;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -62,53 +49,29 @@ h1 {
   z-index: 1;
 }
 
-.main-content {
-  padding: 2rem;
-}
-
-.processing {
+.header-nav {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 1rem;
-  padding: 2rem;
-  color: #667eea;
-  font-size: 1.1rem;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
   font-weight: 500;
 }
 
-.processing::before {
-  content: '';
-  width: 24px;
-  height: 24px;
-  border: 3px solid #667eea;
-  border-top: 3px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.nav-link:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.error {
-  margin: 2rem;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #fee 0%, #fdd 100%);
-  border: 2px solid #f5c6cb;
-  border-radius: 12px;
-  color: #721c24;
-  text-align: center;
-  font-weight: 500;
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
-}
-
-.error::before {
-  content: '⚠️';
-  display: block;
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+.nav-link--active {
+  color: white;
+  background: rgba(255, 255, 255, 0.25);
 }
 </style>
