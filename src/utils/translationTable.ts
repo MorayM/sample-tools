@@ -5,6 +5,8 @@
 
 export type FunctionId =
   | 'linear'
+  | 'square'
+  | 'cubic'
   | 'logarithmic'
   | 'exponential'
   | 'sigmoid'
@@ -21,6 +23,14 @@ const TANH_K = 3
 
 function linear(t: number): number {
   return t
+}
+
+function square(t: number): number {
+  return t * t
+}
+
+function cubic(t: number): number {
+  return t * t * t
 }
 
 function logarithmic(t: number): number {
@@ -50,6 +60,8 @@ function sineCosine(t: number): number {
 
 const CURVES: Record<FunctionId, (t: number) => number> = {
   linear,
+  square,
+  cubic,
   logarithmic,
   exponential,
   sigmoid,

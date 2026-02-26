@@ -14,6 +14,8 @@
         <label class="control-label">Function</label>
         <select v-model="functionId" class="control-select">
           <option value="linear">Linear</option>
+          <option value="square">Square</option>
+          <option value="cubic">Cubic</option>
           <option value="logarithmic">Logarithmic</option>
           <option value="exponential">Exponential</option>
           <option value="sigmoid">Sigmoid</option>
@@ -97,7 +99,7 @@ import {
 const functionId = ref<FunctionId>('linear')
 const min = ref(0)
 const max = ref(1)
-const steps = ref(16)
+const steps = ref(10)
 const reversed = ref(false)
 const copyFeedback = ref('')
 
