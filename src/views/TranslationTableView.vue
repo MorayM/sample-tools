@@ -36,6 +36,10 @@
           <label class="control-label">Steps</label>
           <input v-model.number="steps" type="number" min="1" max="256" class="control-input" />
         </div>
+        <div v-if="showKInput" class="control-group">
+          <label class="control-label">k</label>
+          <input v-model.number="k" type="number" step="any" class="control-input" />
+        </div>
       </div>
       <div class="control-row">
         <label class="control-checkbox">
@@ -101,16 +105,20 @@ const min = ref(0)
 const max = ref(1)
 const steps = ref(10)
 const reversed = ref(false)
+const k = ref(5)
 const copyFeedback = ref('')
+
+const showKInput = computed(() => ['sigmoid', 'tanh'].includes(functionId.value))
 
 const points = computed(() => {
   const mn = Number(min.value)
   const mx = Number(max.value)
   const st = Number(steps.value)
+  const kVal = showKInput.value ? k.value : undefined
   if (!Number.isFinite(mn) || !Number.isFinite(mx) || !Number.isFinite(st)) {
-    return generateTable(functionId.value, 0, 1, 16, false)
+    return generateTable(functionId.value, 0, 1, 16, false, kVal)
   }
-  return generateTable(functionId.value, mn, mx, st, reversed.value)
+  return generateTable(functionId.value, mn, mx, st, reversed.value, kVal)
 })
 
 const translationTableString = computed(() => formatForDecentSampler(points.value))

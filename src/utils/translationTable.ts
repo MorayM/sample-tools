@@ -42,15 +42,17 @@ function exponential(t: number): number {
   return (Math.pow(10, t) - 1) / 9
 }
 
-function sigmoid(t: number): number {
-  const y = 1 / (1 + Math.exp(-SIGMOID_K * (t - 0.5)))
-  const low = 1 / (1 + Math.exp(SIGMOID_K * 0.5))
-  const high = 1 / (1 + Math.exp(-SIGMOID_K * 0.5))
+function sigmoid(t: number, k?: number): number {
+  const K = k ?? SIGMOID_K
+  const y = 1 / (1 + Math.exp(-K * (t - 0.5)))
+  const low = 1 / (1 + Math.exp(K * 0.5))
+  const high = 1 / (1 + Math.exp(-K * 0.5))
   return (y - low) / (high - low)
 }
 
-function tanhCurve(t: number): number {
-  const y = (Math.tanh(TANH_K * (t - 0.5)) + 1) / 2
+function tanhCurve(t: number, k?: number): number {
+  const K = k ?? TANH_K
+  const y = (Math.tanh(K * (t - 0.5)) + 1) / 2
   return y
 }
 
@@ -58,7 +60,7 @@ function sineCosine(t: number): number {
   return Math.sin(t * (Math.PI / 2))
 }
 
-const CURVES: Record<FunctionId, (t: number) => number> = {
+const CURVES: Record<FunctionId, (t: number, k?: number) => number> = {
   linear,
   square,
   cubic,
@@ -69,9 +71,9 @@ const CURVES: Record<FunctionId, (t: number) => number> = {
   sineCosine,
 }
 
-export function applyCurve(id: FunctionId, t: number, reversed: boolean): number {
+export function applyCurve(id: FunctionId, t: number, reversed: boolean, k?: number): number {
   const u = reversed ? 1 - t : t
-  return CURVES[id](u)
+  return CURVES[id](u, k)
 }
 
 /**
@@ -83,14 +85,15 @@ export function generateTable(
   min: number,
   max: number,
   steps: number,
-  reversed: boolean
+  reversed: boolean,
+  k?: number
 ): Point[] {
   const n = Math.max(1, Math.min(256, Math.floor(steps)))
   const points: Point[] = []
   const range = max - min
   for (let i = 0; i <= n; i++) {
     const x = i / n
-    const normalized = applyCurve(functionId, x, reversed)
+    const normalized = applyCurve(functionId, x, reversed, k)
     const y = min + range * normalized
     points.push({ x, y })
   }
