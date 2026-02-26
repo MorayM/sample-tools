@@ -39,6 +39,14 @@
         <div v-if="showSteepnessInput" class="control-group">
           <label class="control-label">Steepness</label>
           <input
+            type="range"
+            min="0.01"
+            max="20"
+            step="0.01"
+            v-model.number="effectiveSteepness"
+            class="control-slider"
+          />
+          <input
             v-model.number="effectiveSteepness"
             type="number"
             step="any"
@@ -264,6 +272,12 @@ async function copyToClipboard() {
   border: 2px solid #e5e7eb;
   border-radius: 8px;
   font-size: 1rem;
+}
+
+.control-slider {
+  width: 8rem;
+  vertical-align: middle;
+  margin-right: 0.5rem;
 }
 
 .control-checkbox {
